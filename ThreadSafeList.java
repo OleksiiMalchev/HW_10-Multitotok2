@@ -23,5 +23,4 @@ public class ThreadSafeList<T> {
     public T get(int index) {
         return safeList.get(index);
     }
-
 }

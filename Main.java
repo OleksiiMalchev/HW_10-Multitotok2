@@ -1,7 +1,3 @@
-import com.sun.source.util.SourcePositions;
-
-import java.util.Random;
-
 public class Main {
     public static void main(String[] args) {
         PetrolStation petrolStation = new PetrolStation();
@@ -22,9 +18,5 @@ public class Main {
         petrolStation.doRefuel(55.0);
         petrolStation.doRefuel(25.0);
         petrolStation.doRefuel(81.0);
-
-
-
-
     }
 }
