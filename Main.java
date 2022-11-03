@@ -25,8 +25,9 @@ public class Main {
         new Thread(()->threadSafeList.add(5)).start();
         new Thread(()->threadSafeList.add(11)).start();
         new Thread(()->threadSafeList.add(13)).start();
-//          new Thread(()->threadSafeList.remove(3)).start();
-//          new Thread(()->threadSafeList.remove(0)).start();
+//        new Thread(()->threadSafeList.remove(3)).start();
+//        new Thread(()->threadSafeList.remove(0)).start();
+//        new Thread(()->threadSafeList.removeByObject(7)).start();
         int size = threadSafeList.getSize();
         System.out.println(size);
         Integer integer = threadSafeList.get(0);

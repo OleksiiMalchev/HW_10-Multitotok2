@@ -33,30 +33,44 @@ public class ThreadSafeList<T> {
     }
 
     public T remove(int index) {
-        if (index > array.length - 1) {
-            throw new ArrayIndexOutOfBoundsException("Index is greater than array size");
+        if (index > array.length - 1 || index < 0) {
+            throw new ArrayIndexOutOfBoundsException("Index not in array range");
         }
-        T[] truncatedArray = getArray();
-        int length = truncatedArray.length;
-        T oldValue = truncatedArray[index];
-        int numMoved = length - index - 1;
-        T[] newArray;
-        if (numMoved == 0) {
-            newArray = Arrays.copyOf(truncatedArray, length - 1);
-            size--;
-        } else {
-            newArray = (T[]) new Object[length - 1];
-            System.arraycopy(truncatedArray, 0, newArray, 0, index);
-            System.arraycopy(truncatedArray, index + 1, newArray, index, numMoved);
-            size--;
+        synchronized (lock) {
+            T[] truncatedArray = getArray();
+            int length = truncatedArray.length;
+            T oldValue = truncatedArray[index];
+            int numMoved = length - index - 1;
+            T[] newArray;
+            if (numMoved == 0) {
+                newArray = Arrays.copyOf(truncatedArray, length - 1);
+                size--;
+            } else {
+                newArray = (T[]) new Object[length - 1];
+                System.arraycopy(truncatedArray, 0, newArray, 0, index);
+                System.arraycopy(truncatedArray, index + 1, newArray, index, numMoved);
+                size--;
+            }
+            setArray(newArray);
+            return oldValue;
         }
-        setArray(newArray);
-        return oldValue;
+    }
+
+    public boolean removeByObject(T t) {
+        synchronized (lock) {
+            T[] oldArray = getArray();
+            for (int i = 0; i < oldArray.length; i++)
+                if (t.equals(oldArray[i])) {
+                    remove(i);
+                    return true;
+                }
+            return false;
+        }
     }
 
     public T get(int index) {
-        if (index > array.length - 1) {
-            throw new ArrayIndexOutOfBoundsException("Index is greater than array size");
+        if (index > array.length - 1 || index < 0) {
+            throw new ArrayIndexOutOfBoundsException("Index not in array range");
         }
         return array[index];
     }
@@ -64,7 +78,6 @@ public class ThreadSafeList<T> {
     public int getSize() {
         return size;
     }
-
 
     @Override
     public String toString() {
