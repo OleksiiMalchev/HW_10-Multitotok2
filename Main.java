@@ -31,8 +31,8 @@ public class Main {
         int size = threadSafeList.getSize();
         System.out.println(size);
         Integer integer = threadSafeList.get(0);
-        Integer integer1 = threadSafeList.get(2);
+//        Integer integer1 = threadSafeList.get(2);
         System.out.println(integer);
-        System.out.println(integer1);
+//        System.out.println(integer1);
     }
 }
